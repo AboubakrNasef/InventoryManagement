@@ -30,7 +30,16 @@ namespace InventoryManagement.Infrastructure.Repositories
 
         public async Task AddAsync(Product product)
         {
+            try
+            {
             await _products.InsertOneAsync(product);
+
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }    
         }
 
         public async Task UpdateAsync(Product product)

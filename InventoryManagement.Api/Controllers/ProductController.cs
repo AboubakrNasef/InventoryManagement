@@ -1,6 +1,8 @@
 ﻿using InventoryManagement.Application.DTO;
+using InventoryManagement.Infrastructure.Messaging.TopicMessages;
 using InventoryManagment.DomainModels.Entites;
 using InventoryManagment.DomainModels.Interfaces;
+using InventoryManagment.DomainModels.Messaging;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InventoryManagement.Api.Controllers
@@ -10,10 +12,12 @@ namespace InventoryManagement.Api.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly IProductRepository _productRepository;
+        private readonly IMessageBus _messageBus;
 
-        public ProductsController(IProductRepository productRepository)
+        public ProductsController(IProductRepository productRepository, IMessageBus messageBus)
         {
             _productRepository = productRepository;
+            _messageBus = messageBus;
         }
 
 
@@ -55,7 +59,7 @@ namespace InventoryManagement.Api.Controllers
             }
             var product = new Product(dto.Id, dto.Name, dto.description, dto.Quantity, dto.Price);
             await _productRepository.AddAsync(product);
-
+            await _messageBus.SendToTopicAsync("UpdateRedisDB", new UpdateRedisTopicMessage(product.Id));
             return CreatedAtAction(nameof(Add), new { id = product.Id }, product);
         }
     }
