@@ -1,11 +1,29 @@
+using Azure.Messaging.ServiceBus;
+using Azure.Messaging.ServiceBus.Administration;
+using InventoryManagement.Application.HostedServices;
+using InventoryManagement.Infrastructure.Extensions;
+using InventoryManagement.Infrastructure.Messaging.TopicMessages;
+using InventoryManagment.DomainModels.Interfaces;
+using InventoryManagment.MessageProcessor.HostedServices;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddInfraStructure(builder.Configuration);
+
+builder.Services.AddHostedService<UpdateRedisDBHostedTopic>(c =>
+{
+    return new UpdateRedisDBHostedTopic(
+        c.GetRequiredService<ServiceBusAdministrationClient>(),
+        "UpdateRedisDB",
+        c.GetRequiredService<ServiceBusClient>(),
+        c.GetRequiredService<ILogger<HostedServiceBase<UpdateRedisTopicMessage>>>(),
+        c.GetRequiredService<IProductRepository>(),
+        c.GetRequiredService<IProductSearchRepository>());
+});
 
 var app = builder.Build();
 

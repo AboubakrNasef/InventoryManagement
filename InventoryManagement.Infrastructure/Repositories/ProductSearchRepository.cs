@@ -17,10 +17,10 @@ namespace InventoryManagement.Infrastructure.Repositories
         private readonly IRedisConnectionProvider _redisConnectionProvider;
         private readonly IRedisCollection<ProductSearchModel> _collection;
 
-        public ProductSearchRepository(IRedisConnectionProvider redisConnectionProvider, IRedisCollection<ProductSearchModel> collection)
+        public ProductSearchRepository(IRedisConnectionProvider redisConnectionProvider)
         {
             _redisConnectionProvider = redisConnectionProvider;
-            _collection = collection;
+            _collection = _redisConnectionProvider.RedisCollection<ProductSearchModel>();
         }
 
         public async Task AddAsync(ProductSearchModel product)

@@ -15,11 +15,10 @@ namespace InventoryManagment.MessageProcessor.HostedServices
         public UpdateRedisDBHostedTopic(ServiceBusAdministrationClient serviceBusAdmin,
             string subscriptionName,
             ServiceBusClient serviceBusClient,
-            ServiceBusProcessor serviceBusProcessor,
             ILogger<HostedServiceBase<UpdateRedisTopicMessage>> logger,
             IProductRepository productRepository,
             IProductSearchRepository productSearchRepository)
-            : base(serviceBusAdmin, subscriptionName, serviceBusClient, serviceBusProcessor, logger)
+            : base(serviceBusAdmin, subscriptionName, serviceBusClient, logger)
         {
             _productRepository = productRepository;
             _productSearchRepository = productSearchRepository;

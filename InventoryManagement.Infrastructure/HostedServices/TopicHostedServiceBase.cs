@@ -15,11 +15,12 @@ namespace InventoryManagement.Infrastructure.HostedServices
         private readonly ServiceBusAdministrationClient _serviceBusAdmin;
         protected readonly string _subscriptionName;
         private readonly ServiceBusClient _serviceBusClient;
-        public TopicHostedServiceBase(ServiceBusAdministrationClient serviceBusAdmin,
+        public TopicHostedServiceBase(
+            ServiceBusAdministrationClient serviceBusAdmin,
             string subscriptionName,
             ServiceBusClient serviceBusClient,
-            ServiceBusProcessor serviceBusProcessor, ILogger<HostedServiceBase<T>> logger)
-            : base(serviceBusProcessor, logger)
+             ILogger<HostedServiceBase<T>> logger)
+            : base(logger)
         {
             _serviceBusAdmin = serviceBusAdmin;
             _subscriptionName = subscriptionName;

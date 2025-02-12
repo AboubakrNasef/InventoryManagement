@@ -14,10 +14,9 @@ namespace InventoryManagement.Application.HostedServices
         private readonly ILogger<HostedServiceBase<T>> _logger;
         protected ServiceBusProcessor _serviceBusProcessor;
         protected string _serviceName;
-        protected HostedServiceBase(ServiceBusProcessor serviceBusProcessor, ILogger<HostedServiceBase<T>> logger)
+        protected HostedServiceBase(ILogger<HostedServiceBase<T>> logger)
         {
             _serviceName = GetType().Name;
-            _serviceBusProcessor = serviceBusProcessor;
             _logger = logger;
         }
         public async Task StartAsync(CancellationToken cancellationToken)
