@@ -8,7 +8,8 @@ namespace InventoryManagment.DomainModels.Messaging
 {
     public interface IMessageBus
     {
-        Task SendTopicMessageAsync(string message);
-        Task SendQueueMessageAsync(string message);
+        Task SendToQueueAsync<T>(string queueName, T message);
+        Task SendToTopicAsync<T>(string topicName, T message);
+
     }
 }

@@ -1,45 +1,50 @@
-﻿using InventoryManagment.DomainModels.Messaging;
+﻿using Azure.Messaging.ServiceBus;
+using InventoryManagment.DomainModels.Messaging;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace InventoryManagement.Infrastructure.Messaging
 {
-    internal class MessageBus
+
+    public class MessageBus : IMessageBus
     {
-        public class ServiceBusClient : IMessageBus
+        private readonly ConcurrentDictionary<string, ServiceBusSender> _senders;
+        private readonly ServiceBusClient _serviceBusClient;
+
+        public MessageBus(ServiceBusClient serviceBusClient)
         {
+            _senders = new();
+            _serviceBusClient = serviceBusClient;
+        }
 
-            private readonly ServiceBusSender _queueSender;
-            private readonly ServiceBusSender _topicSender;
+        public async Task SendToQueueAsync<T>(string queueName, T message)
+        {
+            await SendMessageAsync(message, queueName);
+        }
 
-            public ServiceBusClient(string connectionString, string queueName, string topicName)
+        public async Task SendToTopicAsync<T>(string topicName, T message)
+        {
+            await SendMessageAsync(message, topicName);
+        }
+
+        private async Task SendMessageAsync<T>(T message, string channelName)
+        {
+            if (!_senders.TryGetValue(channelName, out var sender))
             {
-                _client = new ServiceBusClient(connectionString);
-                _queueSender = _client.CreateSender(queueName);
-                _topicSender = _client.CreateSender(topicName);
+                sender = _serviceBusClient.CreateSender(channelName);
+                _senders.TryAdd(channelName, sender);
             }
 
-            public async Task SendToQueueAsync(string message)
-            {
-                var serviceBusMessage = new ServiceBusMessage(message);
-                await _queueSender.SendMessageAsync(serviceBusMessage);
-            }
+            var serializedMessage = JsonSerializer.Serialize(message);
+            var serviceBusMessage = new ServiceBusMessage(serializedMessage);
 
-            public async Task SendToTopicAsync(string message)
-            {
-                var serviceBusMessage = new ServiceBusMessage(message);
-                await _topicSender.SendMessageAsync(serviceBusMessage);
-            }
-
-            public async Task DisposeAsync()
-            {
-                await _queueSender.DisposeAsync();
-                await _topicSender.DisposeAsync();
-                await _client.DisposeAsync();
-            }
+            await sender.SendMessageAsync(serviceBusMessage);
         }
     }
+
 }
