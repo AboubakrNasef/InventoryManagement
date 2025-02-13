@@ -38,7 +38,7 @@ namespace InventoryManagement.Api.Controllers
         public async Task<IActionResult> GetById(int id)
         {
             _logger.LogInformation("Getting product by id: {Id}", id);
-            var product = await _productSearchRepository.GetByIdAsync(id);
+            var product = await _productRepository.GetByIdAsync(id);
             if (product == null)
             {
                 _logger.LogWarning("Product with id: {Id} not found", id);

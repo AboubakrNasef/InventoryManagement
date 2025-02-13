@@ -44,9 +44,6 @@ namespace InventoryManagment.MessageProcessor.HostedServices
                 default:
                     break;
             }
-
-
-
         }
 
         private async Task HandleDelete(int productId)
