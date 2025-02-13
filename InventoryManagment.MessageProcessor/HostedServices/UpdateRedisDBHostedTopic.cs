@@ -12,13 +12,14 @@ namespace InventoryManagment.MessageProcessor.HostedServices
     {
         private readonly IProductRepository _productRepository;
         private readonly IProductSearchRepository _productSearchRepository;
-        public UpdateRedisDBHostedTopic(ServiceBusAdministrationClient serviceBusAdmin,
+        public UpdateRedisDBHostedTopic(
             string subscriptionName,
+            string topicName,
             ServiceBusClient serviceBusClient,
             ILogger<HostedServiceBase<UpdateRedisTopicMessage>> logger,
             IProductRepository productRepository,
             IProductSearchRepository productSearchRepository)
-            : base(serviceBusAdmin, subscriptionName, serviceBusClient, logger)
+            : base( subscriptionName,topicName, serviceBusClient, logger)
         {
             _productRepository = productRepository;
             _productSearchRepository = productSearchRepository;

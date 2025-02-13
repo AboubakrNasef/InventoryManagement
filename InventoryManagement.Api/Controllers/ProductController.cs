@@ -59,7 +59,7 @@ namespace InventoryManagement.Api.Controllers
             }
             var product = new Product(dto.Id, dto.Name, dto.description, dto.Quantity, dto.Price);
             await _productRepository.AddAsync(product);
-            await _messageBus.SendToTopicAsync("UpdateRedisDB", new UpdateRedisTopicMessage(product.Id));
+            await _messageBus.SendToTopicAsync("ProductAction", new UpdateRedisTopicMessage(product.Id));
             return CreatedAtAction(nameof(Add), new { id = product.Id }, product);
         }
     }
