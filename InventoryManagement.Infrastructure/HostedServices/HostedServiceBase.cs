@@ -11,7 +11,7 @@ namespace InventoryManagement.Application.HostedServices
 {
     public abstract class HostedServiceBase<T> : IHostedService
     {
-        private readonly ILogger<HostedServiceBase<T>> _logger;
+        protected readonly ILogger<HostedServiceBase<T>> _logger;
         protected ServiceBusProcessor _serviceBusProcessor;
         protected string _topicName;
         protected HostedServiceBase(ILogger<HostedServiceBase<T>> logger,string topicName)
