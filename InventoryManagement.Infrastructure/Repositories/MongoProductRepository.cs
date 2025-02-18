@@ -1,4 +1,5 @@
-﻿using InventoryManagment.DomainModels.Entites;
+﻿using InventoryManagement.Application.RedisSearch;
+using InventoryManagment.DomainModels.Entites;
 using InventoryManagment.DomainModels.Interfaces;
 using MongoDB.Driver;
 using System;
@@ -11,45 +12,47 @@ namespace InventoryManagement.Infrastructure.Repositories
 {
     public class MongoProductRepository : IProductRepository
     {
-        private readonly IMongoCollection<Product> _products;
+        private readonly IMongoCollection<Product> _productsCollection;
 
         public MongoProductRepository(IMongoDatabase database)
         {
-            _products = database.GetCollection<Product>("Products");
+            _productsCollection = database.GetCollection<Product>("Products");
         }
 
         public async Task<Product> GetByIdAsync(int id)
         {
-            return await _products.Find(p => p.Id == id).FirstOrDefaultAsync();
+            return await _productsCollection.Find(p => p.Id == id).FirstOrDefaultAsync();
         }
 
         public async Task<List<Product>> GetAllAsync()
         {
-            return await _products.Find(_ => true).ToListAsync();
+            return await _productsCollection.Find(_ => true).ToListAsync();
         }
 
         public async Task AddAsync(Product product)
         {
-            try
-            {
-            await _products.InsertOneAsync(product);
-
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }    
+            await _productsCollection.InsertOneAsync(product); 
         }
 
         public async Task UpdateAsync(Product product)
         {
-            await _products.ReplaceOneAsync(p => p.Id == product.Id, product);
+            await _productsCollection.ReplaceOneAsync(p => p.Id == product.Id, product);
         }
 
         public async Task DeleteAsync(int id)
         {
-            await _products.DeleteOneAsync(p => p.Id == id);
+            await _productsCollection.DeleteOneAsync(p => p.Id == id);
+        }
+
+        public async Task<ProductSearchModel> GetSearchModelByIdAsync(int id)
+        {
+            var projection = Builders<Product>.Projection.Expression(p => new ProductSearchModel
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Price = p.Price
+            });
+            return await _productsCollection.Find(p => p.Id == id).Project(projection).FirstOrDefaultAsync();
         }
     }
 }

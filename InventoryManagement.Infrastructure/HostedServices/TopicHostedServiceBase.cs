@@ -12,17 +12,17 @@ namespace InventoryManagement.Infrastructure.HostedServices
 {
     public abstract class TopicHostedServiceBase<T> : HostedServiceBase<T>
     {
-        private readonly ServiceBusAdministrationClient _serviceBusAdmin;
         protected readonly string _subscriptionName;
         private readonly ServiceBusClient _serviceBusClient;
+
         public TopicHostedServiceBase(
-            ServiceBusAdministrationClient serviceBusAdmin,
             string subscriptionName,
+            string topicName,
             ServiceBusClient serviceBusClient,
              ILogger<HostedServiceBase<T>> logger)
-            : base(logger)
+            : base(logger, topicName)
         {
-            _serviceBusAdmin = serviceBusAdmin;
+
             _subscriptionName = subscriptionName;
             _serviceBusClient = serviceBusClient;
         }
@@ -30,20 +30,12 @@ namespace InventoryManagement.Infrastructure.HostedServices
         protected async override Task<ServiceBusProcessor> CreateServiceBusProcessorAsync()
         {
 
-            if (await _serviceBusAdmin.SubscriptionExistsAsync(_serviceName, _subscriptionName))
-            {
-                await _serviceBusAdmin.CreateTopicAsync(_serviceName);
-            }
-
-            var subscriptionDiscriptor = new CreateSubscriptionOptions(_serviceName, _subscriptionName);
-            await _serviceBusAdmin.CreateSubscriptionAsync(subscriptionDiscriptor);
-
             var serviceBusProcessorOptions = new ServiceBusProcessorOptions()
             {
                 MaxConcurrentCalls = 10,
             };
 
-            return _serviceBusClient.CreateProcessor(_serviceName, _subscriptionName, serviceBusProcessorOptions);
+            return await Task.FromResult( _serviceBusClient.CreateProcessor(_topicName, _subscriptionName, serviceBusProcessorOptions));
         }
     }
 }

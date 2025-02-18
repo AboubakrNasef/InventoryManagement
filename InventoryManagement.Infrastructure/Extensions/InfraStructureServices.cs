@@ -1,5 +1,6 @@
 ﻿using Azure.Messaging.ServiceBus;
 using Azure.Messaging.ServiceBus.Administration;
+using InventoryManagement.Application.RedisSearch;
 using InventoryManagement.Infrastructure.Messaging;
 using InventoryManagement.Infrastructure.Repositories;
 using InventoryManagment.DomainModels.Interfaces;
@@ -41,6 +42,7 @@ namespace InventoryManagement.Infrastructure.Extensions
             services.AddSingleton<IProductSearchRepository, ProductSearchRepository>(c =>
             {
                 var provider = new RedisConnectionProvider(RedisConnectionString);
+                provider.Connection.CreateIndex(typeof(ProductSearchModel));
                 return new ProductSearchRepository(provider);
             });
             services.AddSingleton<IMessageBus, MessageBus>();

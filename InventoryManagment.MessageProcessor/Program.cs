@@ -9,6 +9,7 @@ using InventoryManagment.MessageProcessor.HostedServices;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
+builder.Logging.AddConsole();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -16,9 +17,11 @@ builder.Services.AddInfraStructure(builder.Configuration);
 
 builder.Services.AddHostedService<UpdateRedisDBHostedTopic>(c =>
 {
+    var topicName = builder.Configuration.GetSection("ServiceBus:TopicName").Value;
+    var subscriptionName = builder.Configuration.GetSection("ServiceBus:SubscriptionName").Value;
     return new UpdateRedisDBHostedTopic(
-        c.GetRequiredService<ServiceBusAdministrationClient>(),
-        "UpdateRedisDB",
+        subscriptionName,
+        topicName,
         c.GetRequiredService<ServiceBusClient>(),
         c.GetRequiredService<ILogger<HostedServiceBase<UpdateRedisTopicMessage>>>(),
         c.GetRequiredService<IProductRepository>(),
@@ -27,17 +30,7 @@ builder.Services.AddHostedService<UpdateRedisDBHostedTopic>(c =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.MapGet("/", () => "Hello MessageProcessor");
 
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
 
 app.Run();

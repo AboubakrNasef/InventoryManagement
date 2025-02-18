@@ -12,13 +12,14 @@ namespace InventoryManagment.MessageProcessor.HostedServices
     {
         private readonly IProductRepository _productRepository;
         private readonly IProductSearchRepository _productSearchRepository;
-        public UpdateRedisDBHostedTopic(ServiceBusAdministrationClient serviceBusAdmin,
+        public UpdateRedisDBHostedTopic(
             string subscriptionName,
+            string topicName,
             ServiceBusClient serviceBusClient,
             ILogger<HostedServiceBase<UpdateRedisTopicMessage>> logger,
             IProductRepository productRepository,
             IProductSearchRepository productSearchRepository)
-            : base(serviceBusAdmin, subscriptionName, serviceBusClient, logger)
+            : base(subscriptionName, topicName, serviceBusClient, logger)
         {
             _productRepository = productRepository;
             _productSearchRepository = productSearchRepository;
@@ -26,17 +27,45 @@ namespace InventoryManagment.MessageProcessor.HostedServices
 
         protected async override Task ProcessMessageAsync(ProcessMessageEventArgs args)
         {
+            _logger.LogInformation("ProcessMessageAsync {message}", args.Message);
             var message = args.Message;
-            var messageBody = message.Body.ToObjectFromJson<UpdateRedisTopicMessage>();
-            var product = await _productRepository.GetByIdAsync(messageBody.ProductId);
-            var productSearch = new ProductSearchModel
+            var topicMessage = message.Body.ToObjectFromJson<UpdateRedisTopicMessage>();
+            switch (topicMessage.ProductAction)
             {
-                Id = product.Id,
-                Name = product.Name,
-                Price = product.Price,
-            };
-            await _productSearchRepository.UpdateAsync(productSearch);
+                case ProductAction.Add:
+                    await HandleAdd(topicMessage.ProductId);
+                    break;
+                case ProductAction.Update:
+                    await HandleUpdate(topicMessage.ProductId);
+                    break;
+                case ProductAction.Delete:
+                    await HandleDelete(topicMessage.ProductId);
+                    break;
+                default:
+                    break;
+            }
+        }
 
+        private async Task HandleDelete(int productId)
+        {
+            _logger.LogInformation("Deleting {id}", productId);
+            await _productSearchRepository.DeleteAsync(productId);
+        }
+
+        private async Task HandleUpdate(int productId)
+        {
+            _logger.LogInformation("updating product {id}", productId);
+            var productSearch = await _productRepository.GetSearchModelByIdAsync(productId);
+            await _productSearchRepository.UpdateAsync(productSearch);
+        }
+
+        private async Task HandleAdd(int productId)
+        {
+            _logger.LogInformation("Adding product {id}", productId);
+
+            var productSearch = await _productRepository.GetSearchModelByIdAsync(productId);
+
+            await _productSearchRepository.AddAsync(productSearch);
         }
     }
 }

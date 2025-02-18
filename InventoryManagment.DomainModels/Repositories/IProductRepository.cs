@@ -1,4 +1,5 @@
-﻿using InventoryManagment.DomainModels.Entites;
+﻿using InventoryManagement.Application.RedisSearch;
+using InventoryManagment.DomainModels.Entites;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace InventoryManagment.DomainModels.Interfaces
     public interface IProductRepository
     {
         Task<Product> GetByIdAsync(int id);
+        Task<ProductSearchModel> GetSearchModelByIdAsync(int id);
         Task<List<Product>> GetAllAsync();
         Task AddAsync(Product product);
         Task UpdateAsync(Product product);
