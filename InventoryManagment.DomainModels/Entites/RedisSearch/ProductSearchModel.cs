@@ -1,4 +1,5 @@
-﻿using Redis.OM.Modeling;
+﻿using InventoryManagment.DomainModels.Entites;
+using Redis.OM.Modeling;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 namespace InventoryManagement.Application.RedisSearch
 {
     [Document(StorageType = StorageType.Json, Prefixes = ["ProductSearchModel"])]
-    public class ProductSearchModel
+    public class ProductSearchModel : IEntity
     {
         [RedisIdField]
         public int Id { get; set; }

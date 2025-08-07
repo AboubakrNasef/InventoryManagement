@@ -6,15 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace InventoryManagment.DomainModels.Interfaces
+namespace InventoryManagment.DomainModels.Repositories
 {
-    public interface IProductRepository
+    public interface IProductRepository : IRepository<Product>
     {
-        Task<Product> GetByIdAsync(int id);
-        Task<ProductSearchModel> GetSearchModelByIdAsync(int id);
-        Task<List<Product>> GetAllAsync();
-        Task AddAsync(Product product);
-        Task UpdateAsync(Product product);
-        Task DeleteAsync(int id);
+        Task<ProductSearchModel> GetSearchModelByIdAsync(int productId);
     }
 }

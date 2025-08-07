@@ -1,9 +1,10 @@
-﻿using InventoryManagement.Application.DTO;
-using InventoryManagement.Infrastructure.Messaging.TopicMessages;
-using InventoryManagment.DomainModels.Entites;
-using InventoryManagment.DomainModels.Interfaces;
-using InventoryManagment.DomainModels.Messaging;
+using InventoryManagement.Application.Features.Products.Queries;
+using InventoryManagement.Application.Features.Products.Commands;
 using Microsoft.AspNetCore.Mvc;
+using InventoryManagement.Application.Features.Products;
+using Mediator;
+using InventoryManagement.Infrastructure.Messaging.TopicMessages;
+using InventoryManagment.DomainModels.Messaging;
 
 namespace InventoryManagement.Api.Controllers
 {
@@ -11,26 +12,23 @@ namespace InventoryManagement.Api.Controllers
     [Route("api/[controller]")]
     public class ProductsController : ControllerBase
     {
-        private readonly IProductRepository _productRepository;
-        private readonly IProductSearchRepository _productSearchRepository;
+        private readonly IMediator _mediator;
         private readonly IMessageBus _messageBus;
         private readonly ILogger<ProductsController> _logger;
 
-        public ProductsController(IProductRepository productRepository, IProductSearchRepository productSearchRepository, IMessageBus messageBus, ILogger<ProductsController> logger)
+        public ProductsController(IMediator mediator, ILogger<ProductsController> logger, IMessageBus messageBus)
         {
-            _productRepository = productRepository;
-            _productSearchRepository = productSearchRepository;
-            _messageBus = messageBus;
-            _logger = logger;
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _messageBus = messageBus ?? throw new ArgumentNullException(nameof(messageBus));
         }
 
-        [HttpGet("")]
+        [HttpGet()]
         public async Task<IActionResult> GetAll()
         {
-            _logger.LogInformation("Getting all products");
-            var products = await _productSearchRepository.GetAllAsync();
-            _logger.LogInformation("Retrieved {Count} products", products.Count);
-
+            using var _ = _logger.BeginScope("Getting all products");
+            var products = await _mediator.Send(new GetAllProductsQuery());
+            _logger.LogInformation("Retrieved {Count} products", products.Count());
             return Ok(products);
         }
 
@@ -38,13 +36,13 @@ namespace InventoryManagement.Api.Controllers
         public async Task<IActionResult> GetById(int id)
         {
             _logger.LogInformation("Getting product by id: {Id}", id);
-            var product = await _productRepository.GetByIdAsync(id);
+            var product = await _mediator.Send(new GetProductByIdQuery(id));
             if (product == null)
             {
                 _logger.LogWarning("Product with id: {Id} not found", id);
                 return NotFound();
             }
-            _logger.LogInformation("Retrieved product: {Product}", product);
+            _logger.LogInformation("Retrieved product: {@Product}", product);
 
             return Ok(product);
         }
@@ -52,17 +50,22 @@ namespace InventoryManagement.Api.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] ProductDto dto)
         {
-            if (dto == null || id != dto.Id)
+            if (dto == null)
             {
-                _logger.LogWarning("Invalid product data for update. Id: {Id}, DTO: {Dto}", id, dto);
+                _logger.LogWarning("Invalid product data for update. DTO: {Dto}", dto);
                 return BadRequest("Invalid product data.");
             }
             _logger.LogInformation("Updating product with id: {Id}", id);
-            var product = new Product(id, dto.Name, dto.description, dto.Quantity, dto.Price);
-            await _productRepository.UpdateAsync(product);
-            _logger.LogInformation("Sending Updated product with id: {Id}", id);
-            await _messageBus.SendToTopicAsync("ProductAction", new UpdateRedisTopicMessage(id, ProductAction.Update));
+            var command = new UpdateProductCommand(id, dto.Name, dto.Description, dto.Price, dto.Quantity, dto.CategoryId);
+            var updated = await _mediator.Send(command);
+            if (!updated)
+            {
+                _logger.LogWarning("Product with id: {Id} not found for update", id);
+                return NotFound();
+            }
+            _logger.LogInformation("Product updated with id: {Id}", id);
 
+            await _messageBus.SendToTopicAsync("ProductAction", new UpdateRedisTopicMessage(id, ProductAction.Update));
             return NoContent();
         }
 
@@ -70,10 +73,15 @@ namespace InventoryManagement.Api.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             _logger.LogInformation("Deleting product with id: {Id}", id);
-            await _productRepository.DeleteAsync(id);
-            _logger.LogInformation("Sending Deleted product with id: {Id}", id);
-            await _messageBus.SendToTopicAsync("ProductAction", new UpdateRedisTopicMessage(id, ProductAction.Delete));
+            var deleted = await _mediator.Send(new DeleteProductCommand(id));
+            if (!deleted)
+            {
+                _logger.LogWarning("Product with id: {Id} not found for deletion", id);
+                return NotFound();
+            }
+            _logger.LogInformation("Product deleted with id: {Id}", id);
 
+            await _messageBus.SendToTopicAsync("ProductAction", new UpdateRedisTopicMessage(id, ProductAction.Delete));
             return NoContent();
         }
 
@@ -86,12 +94,12 @@ namespace InventoryManagement.Api.Controllers
                 return BadRequest("Invalid product data.");
             }
             _logger.LogInformation("Adding new product");
-            var product = new Product(dto.Id, dto.Name, dto.description, dto.Quantity, dto.Price);
-            await _productRepository.AddAsync(product);
-            _logger.LogInformation("Sending Added new product with id: {Id}", product.Id);
-            await _messageBus.SendToTopicAsync("ProductAction", new UpdateRedisTopicMessage(product.Id, ProductAction.Add));
+            var command = new CreateProductCommand(dto.Name, dto.Description, dto.Price, dto.CategoryId, dto.Quantity);
+            var productId = await _mediator.Send(command);
+            _logger.LogInformation("Product created with id: {Id}", productId);
 
-            return CreatedAtAction(nameof(Add), new { id = product.Id }, product);
+            await _messageBus.SendToTopicAsync("ProductAction", new UpdateRedisTopicMessage(productId, ProductAction.Add));
+            return CreatedAtAction(nameof(GetById), new { id = productId }, null);
         }
     }
 }
