@@ -58,7 +58,13 @@ namespace InventoryManagement.Api.Controllers
                 return BadRequest("Invalid product data.");
             }
             _logger.LogInformation("Updating product with id: {Id}", id);
-            var product = new Product(id, dto.Name, dto.description, dto.Quantity, dto.Price);
+            var product = new Product()
+            {
+                Name = dto.Name,
+                Description = dto.description,
+                Quantity = dto.Quantity,
+                Price = dto.Price
+            };
             await _productRepository.UpdateAsync(product);
             _logger.LogInformation("Sending Updated product with id: {Id}", id);
             await _messageBus.SendToTopicAsync("ProductAction", new UpdateRedisTopicMessage(id, ProductAction.Update));

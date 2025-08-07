@@ -2,12 +2,7 @@
 
 namespace InventoryManagment.DomainModels.Interfaces
 {
-    public interface IProductSearchRepository
+    public interface IProductSearchRepository : IRepository<ProductSearchModel>
     {
-        Task<ProductSearchModel> GetByIdAsync(int id);
-        Task<IList<ProductSearchModel>> GetAllAsync();
-        Task AddAsync(ProductSearchModel product);
-        Task UpdateAsync(ProductSearchModel product);
-        Task DeleteAsync(int id);
     }
 }

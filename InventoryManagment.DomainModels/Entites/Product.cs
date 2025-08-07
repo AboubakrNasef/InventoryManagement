@@ -1,11 +1,13 @@
 ﻿namespace InventoryManagment.DomainModels.Entites
 {
-    public record Product
-        (
-            int Id,
-            string Name,
-            string Description,
-            decimal Price,
-            int Quantity
-        );
+    public class Product : IEntity
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public float Price { get; set; }
+        public int Quantity { get; set; }
+        public bool IsActive { get; set; }
+        public Category Category { get; set; }
+    }
 }
