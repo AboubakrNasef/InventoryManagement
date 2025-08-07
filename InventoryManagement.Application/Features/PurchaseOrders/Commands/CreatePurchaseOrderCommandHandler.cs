@@ -1,7 +1,6 @@
 using InventoryManagement.Application.Common;
 using InventoryManagment.DomainModels.Entites;
-using InventoryManagment.DomainModels.Interfaces;
-using MediatR;
+using InventoryManagment.DomainModels.Repositories;
 using Microsoft.Extensions.Logging;
 
 namespace InventoryManagement.Application.Features.PurchaseOrders.Commands
@@ -12,6 +11,7 @@ namespace InventoryManagement.Application.Features.PurchaseOrders.Commands
     {
         private readonly IPurchaseOrderRepository _purchaseOrderRepository;
         private readonly ILogger<CreatePurchaseOrderCommandHandler> _logger;
+        private readonly TimeProvider _timeProvider;
 
         public CreatePurchaseOrderCommandHandler(IPurchaseOrderRepository purchaseOrderRepository, ILogger<CreatePurchaseOrderCommandHandler> logger)
         {
@@ -27,7 +27,8 @@ namespace InventoryManagement.Application.Features.PurchaseOrders.Commands
                 UserId = command.UserId,
                 ProductIds = command.ProductIds,
                 TotalAmount = command.TotalAmount,
-                OrderDate = DateTime.UtcNow
+                OrderDate = _timeProvider.GetUtcNow(),
+                ExpectedDate = _timeProvider.GetUtcNow().AddDays(3),
             };
             await _purchaseOrderRepository.AddAsync(order);
             _logger.LogInformation($"Purchase order created with id {order.Id}");

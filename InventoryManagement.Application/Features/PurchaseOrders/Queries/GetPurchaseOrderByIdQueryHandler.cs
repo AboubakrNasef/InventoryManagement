@@ -1,6 +1,6 @@
 using InventoryManagement.Application.Common;
 using InventoryManagment.DomainModels.Entites;
-using InventoryManagment.DomainModels.Interfaces;
+using InventoryManagment.DomainModels.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
 

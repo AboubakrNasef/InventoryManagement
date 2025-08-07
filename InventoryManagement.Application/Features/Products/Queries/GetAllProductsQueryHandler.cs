@@ -1,5 +1,5 @@
 using InventoryManagement.Application.Common;
-using InventoryManagment.DomainModels.Interfaces;
+using InventoryManagment.DomainModels.Repositories;
 
 
 namespace InventoryManagement.Application.Features.Products.Queries

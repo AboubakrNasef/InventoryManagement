@@ -1,5 +1,5 @@
 using InventoryManagment.DomainModels.Entites;
-using InventoryManagment.DomainModels.Interfaces;
+using InventoryManagment.DomainModels.Repositories;
 using MongoDB.Driver;
 
 namespace InventoryManagement.Infrastructure.Repositories.Mongo

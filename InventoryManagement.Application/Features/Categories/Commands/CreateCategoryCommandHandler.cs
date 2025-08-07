@@ -1,6 +1,6 @@
 using InventoryManagement.Application.Common;
 using InventoryManagment.DomainModels.Entites;
-using InventoryManagment.DomainModels.Interfaces;
+using InventoryManagment.DomainModels.Repositories;
 using Microsoft.Extensions.Logging;
 
 namespace InventoryManagement.Application.Features.Categories.Commands

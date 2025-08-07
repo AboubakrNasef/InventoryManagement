@@ -1,6 +1,6 @@
 ﻿using InventoryManagement.Application.RedisSearch;
 using InventoryManagment.DomainModels.Entites;
-using InventoryManagment.DomainModels.Interfaces;
+using InventoryManagment.DomainModels.Repositories;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;

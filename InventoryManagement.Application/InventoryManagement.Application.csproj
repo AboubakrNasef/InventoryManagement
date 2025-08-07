@@ -17,10 +17,4 @@
     <ProjectReference Include="..\InventoryManagment.DomainModels\InventoryManagment.DomainModels.csproj" />
   </ItemGroup>
 
-
-
-  <ItemGroup>
-    <Folder Include="Features\DTOs\" />
-  </ItemGroup>
-
 </Project>

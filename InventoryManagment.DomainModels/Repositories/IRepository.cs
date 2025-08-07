@@ -1,4 +1,4 @@
-namespace InventoryManagment.DomainModels.Interfaces
+namespace InventoryManagment.DomainModels.Repositories
 {
     public interface IRepository<T>
     {

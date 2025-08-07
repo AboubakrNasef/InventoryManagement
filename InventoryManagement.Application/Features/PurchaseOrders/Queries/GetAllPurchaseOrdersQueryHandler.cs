@@ -1,6 +1,6 @@
 using InventoryManagement.Application.Common;
 using InventoryManagment.DomainModels.Entites;
-using InventoryManagment.DomainModels.Interfaces;
+using InventoryManagment.DomainModels.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
@@ -13,7 +13,7 @@ namespace InventoryManagement.Application.Features.PurchaseOrders.Queries
         private readonly IPurchaseOrderRepository _purchaseOrderRepository;
         private readonly ILogger<GetAllPurchaseOrdersQueryHandler> _logger;
 
-        public GetAllPurchaseOrderByIdQueryHandler(IPurchaseOrderRepository purchaseOrderRepository, ILogger<GetAllPurchaseOrdersQueryHandler> logger)
+        public GetAllPurchaseOrdersQueryHandler(IPurchaseOrderRepository purchaseOrderRepository, ILogger<GetAllPurchaseOrdersQueryHandler> logger)
         {
             _purchaseOrderRepository = purchaseOrderRepository ?? throw new ArgumentNullException(nameof(purchaseOrderRepository));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));

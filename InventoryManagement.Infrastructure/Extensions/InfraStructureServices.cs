@@ -4,7 +4,7 @@ using InventoryManagement.Application.RedisSearch;
 using InventoryManagement.Infrastructure.Messaging;
 using InventoryManagement.Infrastructure.Repositories.Mongo;
 using InventoryManagement.Infrastructure.Repositories.Redis;
-using InventoryManagment.DomainModels.Interfaces;
+using InventoryManagment.DomainModels.Repositories;
 using InventoryManagment.DomainModels.Messaging;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

@@ -1,5 +1,5 @@
 using InventoryManagement.Application.Common;
-using InventoryManagment.DomainModels.Interfaces;
+using InventoryManagment.DomainModels.Repositories;
 using Microsoft.Extensions.Logging;
 using System.Threading;
 using System.Threading.Tasks;

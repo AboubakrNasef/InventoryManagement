@@ -3,7 +3,7 @@ using Azure.Messaging.ServiceBus.Administration;
 using InventoryManagement.Application.HostedServices;
 using InventoryManagement.Infrastructure.Extensions;
 using InventoryManagement.Infrastructure.Messaging.TopicMessages;
-using InventoryManagment.DomainModels.Interfaces;
+using InventoryManagment.DomainModels.Repositories;
 using InventoryManagment.MessageProcessor.HostedServices;
 
 var builder = WebApplication.CreateBuilder(args);

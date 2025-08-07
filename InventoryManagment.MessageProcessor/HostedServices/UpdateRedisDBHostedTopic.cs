@@ -4,7 +4,7 @@ using InventoryManagement.Application.HostedServices;
 using InventoryManagement.Application.RedisSearch;
 using InventoryManagement.Infrastructure.HostedServices;
 using InventoryManagement.Infrastructure.Messaging.TopicMessages;
-using InventoryManagment.DomainModels.Interfaces;
+using InventoryManagment.DomainModels.Repositories;
 
 namespace InventoryManagment.MessageProcessor.HostedServices
 {

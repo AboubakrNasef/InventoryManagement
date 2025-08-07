@@ -2,7 +2,7 @@ using InventoryManagment.DomainModels.Entites;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
-namespace InventoryManagment.DomainModels.Interfaces
+namespace InventoryManagment.DomainModels.Repositories
 {
     public interface IUserRepository : IRepository<User>
     {

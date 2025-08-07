@@ -1,5 +1,5 @@
 ﻿using InventoryManagement.Application.RedisSearch;
-using InventoryManagment.DomainModels.Interfaces;
+using InventoryManagment.DomainModels.Repositories;
 using Redis.OM;
 using Redis.OM.Contracts;
 using Redis.OM.Searching;

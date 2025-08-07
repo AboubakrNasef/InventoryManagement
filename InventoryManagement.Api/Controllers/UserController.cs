@@ -2,7 +2,6 @@ using InventoryManagement.Application.Features.Users.Commands;
 using InventoryManagement.Application.Features.Users.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace InventoryManagement.Api.Controllers
 {

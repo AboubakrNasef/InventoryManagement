@@ -1,6 +1,6 @@
 ﻿using InventoryManagement.Application.RedisSearch;
 
-namespace InventoryManagment.DomainModels.Interfaces
+namespace InventoryManagment.DomainModels.Repositories
 {
     public interface IProductSearchRepository : IRepository<ProductSearchModel>
     {
