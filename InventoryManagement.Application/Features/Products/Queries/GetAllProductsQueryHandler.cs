@@ -1,4 +1,4 @@
-using InventoryManagement.Application.Common;
+using Mediator;
 using InventoryManagment.DomainModels.Repositories;
 
 
@@ -15,7 +15,7 @@ namespace InventoryManagement.Application.Features.Products.Queries
             _productRepository = productRepository;
         }
 
-        public async Task<List<ProductDto>> Handle(GetAllProductsQuery query, CancellationToken cancellationToken)
+        public async ValueTask<List<ProductDto>> Handle(GetAllProductsQuery query, CancellationToken cancellationToken)
         {
             var products = await _productRepository.GetAllAsync();
             return products.Select(product => new ProductDto

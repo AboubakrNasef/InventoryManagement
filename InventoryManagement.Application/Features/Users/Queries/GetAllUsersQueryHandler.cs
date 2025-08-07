@@ -1,4 +1,4 @@
-using InventoryManagement.Application.Common;
+
 using InventoryManagment.DomainModels.Entites;
 using InventoryManagment.DomainModels.Repositories;
 using Mediator;
@@ -19,7 +19,7 @@ namespace InventoryManagement.Application.Features.Users.Queries
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public async Task<List<User>> Handle(GetAllUsersQuery query, CancellationToken cancellationToken)
+        public async ValueTask<List<User>> Handle(GetAllUsersQuery query, CancellationToken cancellationToken)
         {
             _logger.LogInformation($"Getting all users");
             var users = await _userRepository.GetAllAsync();

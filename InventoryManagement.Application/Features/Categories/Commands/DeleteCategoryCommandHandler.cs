@@ -1,4 +1,4 @@
-using InventoryManagement.Application.Common;
+using Mediator;
 using InventoryManagment.DomainModels.Repositories;
 using Microsoft.Extensions.Logging;
 
@@ -18,7 +18,7 @@ namespace InventoryManagement.Application.Features.Categories.Commands
             _logger = logger;
         }
 
-        public async Task<bool> Handle(DeleteCategoryCommand command, CancellationToken cancellationToken)
+        public async ValueTask<bool> Handle(DeleteCategoryCommand command, CancellationToken cancellationToken)
         {
             _logger.LogInformation($"Deleting category: {command.Id}");
             var category = await _categoryRepository.GetByIdAsync(command.Id);

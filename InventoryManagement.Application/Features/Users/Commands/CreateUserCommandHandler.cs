@@ -1,4 +1,3 @@
-using InventoryManagement.Application.Common;
 using InventoryManagment.DomainModels.Entites;
 using InventoryManagment.DomainModels.Repositories;
 using Mediator;
@@ -19,7 +18,7 @@ namespace InventoryManagement.Application.Features.Users.Commands
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public async Task<int> Handle(CreateUserCommand command, CancellationToken cancellationToken)
+        public async ValueTask<int> Handle(CreateUserCommand command, CancellationToken cancellationToken)
         {
             _logger.LogInformation($"Creating user: {command.UserName}");
             var user = new User

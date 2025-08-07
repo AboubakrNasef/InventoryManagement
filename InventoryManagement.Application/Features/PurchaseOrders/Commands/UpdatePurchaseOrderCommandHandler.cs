@@ -1,5 +1,3 @@
-using InventoryManagement.Application.Common;
-using InventoryManagment.DomainModels.Entites;
 using InventoryManagment.DomainModels.Repositories;
 using Mediator;
 using Microsoft.Extensions.Logging;
@@ -19,7 +17,7 @@ namespace InventoryManagement.Application.Features.PurchaseOrders.Commands
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public async Task<bool> Handle(UpdatePurchaseOrderCommand command, CancellationToken cancellationToken)
+        public async ValueTask<bool> Handle(UpdatePurchaseOrderCommand command, CancellationToken cancellationToken)
         {
             _logger.LogInformation($"Updating purchase order: {command.Id}");
             var order = await _purchaseOrderRepository.GetByIdAsync(command.Id);

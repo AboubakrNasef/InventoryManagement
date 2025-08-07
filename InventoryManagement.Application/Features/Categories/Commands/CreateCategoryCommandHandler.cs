@@ -1,4 +1,4 @@
-using InventoryManagement.Application.Common;
+using Mediator;
 using InventoryManagment.DomainModels.Entites;
 using InventoryManagment.DomainModels.Repositories;
 using Microsoft.Extensions.Logging;

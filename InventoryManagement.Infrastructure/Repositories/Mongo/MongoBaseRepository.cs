@@ -9,12 +9,12 @@ namespace InventoryManagement.Infrastructure.Repositories.Mongo
     public abstract class MongoBaseRepository<T> : IRepository<T> where T : IEntity
     {
         protected readonly IMongoCollection<T> _collection;
-        protected readonly IMongoDatabase database;
+        protected readonly IMongoDatabase _database;
 
         protected MongoBaseRepository(IMongoDatabase database)
         {
-            this.database = database ?? throw new ArgumentNullException(nameof(database));
-            _collection = database.GetCollection<T>(typeof(T).Name);
+            _database = database ?? throw new ArgumentNullException(nameof(database));
+            _collection = database.GetCollection<T>(typeof(T).Name) ?? throw new ArgumentNullException(nameof(_collection)); ;
         }
 
         public virtual async Task<T> GetByIdAsync(int id)

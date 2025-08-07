@@ -1,4 +1,4 @@
-using InventoryManagement.Application.Common;
+using Mediator;
 using InventoryManagment.DomainModels.Repositories;
 
 
@@ -15,7 +15,7 @@ namespace InventoryManagement.Application.Features.Categories.Queries
             _categoryRepository = categoryRepository;
         }
 
-        public async Task<CategoryDto> Handle(GetCategoryByIdQuery query, CancellationToken cancellationToken)
+        public async ValueTask<CategoryDto> Handle(GetCategoryByIdQuery query, CancellationToken cancellationToken)
         {
             var category = await _categoryRepository.GetByIdAsync(query.Id);
             if (category == null) return null;

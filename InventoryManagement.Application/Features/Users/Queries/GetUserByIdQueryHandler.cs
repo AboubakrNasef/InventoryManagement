@@ -1,4 +1,4 @@
-using InventoryManagement.Application.Common;
+
 using InventoryManagment.DomainModels.Entites;
 using InventoryManagment.DomainModels.Repositories;
 using Mediator;
@@ -19,7 +19,7 @@ namespace InventoryManagement.Application.Features.Users.Queries
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public async Task<User> Handle(GetUserByIdQuery query, CancellationToken cancellationToken)
+        public async ValueTask<User> Handle(GetUserByIdQuery query, CancellationToken cancellationToken)
         {
             _logger.LogInformation($"Getting user by id: {query.Id}");
             var user = await _userRepository.GetByIdAsync(query.Id);

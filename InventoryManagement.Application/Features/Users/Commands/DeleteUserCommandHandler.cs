@@ -1,4 +1,4 @@
-using InventoryManagement.Application.Common;
+
 using InventoryManagment.DomainModels.Repositories;
 using Mediator;
 using Microsoft.Extensions.Logging;
@@ -18,7 +18,7 @@ namespace InventoryManagement.Application.Features.Users.Commands
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public async Task<bool> Handle(DeleteUserCommand command, CancellationToken cancellationToken)
+        public async ValueTask<bool> Handle(DeleteUserCommand command, CancellationToken cancellationToken)
         {
             _logger.LogInformation($"Deleting user: {command.Id}");
             var result = await _userRepository.DeleteAsync(command.Id);

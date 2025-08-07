@@ -1,8 +1,8 @@
-using InventoryManagement.Application.Common;
 using InventoryManagment.DomainModels.Entites;
 using InventoryManagment.DomainModels.Repositories;
+using Mediator;
 using Microsoft.Extensions.Logging;
-using System.ComponentModel;
+
 
 namespace InventoryManagement.Application.Features.Products.Commands
 {
@@ -22,7 +22,7 @@ namespace InventoryManagement.Application.Features.Products.Commands
         }
 
 
-        public async Task<int> Handle(CreateProductCommand command, CancellationToken cancellationToken)
+        public async ValueTask<int> Handle(CreateProductCommand command, CancellationToken cancellationToken)
         {
             _logger.LogInformation($"Creating product: {command.Name}");
 

@@ -1,4 +1,4 @@
-using InventoryManagement.Application.Common;
+using Mediator;
 using InventoryManagment.DomainModels.Repositories;
 
 
@@ -12,10 +12,10 @@ namespace InventoryManagement.Application.Features.Categories.Queries
 
         public GetAllCategoriesQueryHandler(ICategoryRepository categoryRepository)
         {
-            _categoryRepository = categoryRepository;
+            _categoryRepository = categoryRepository ?? throw new ArgumentNullException(nameof(categoryRepository));
         }
 
-        public async Task<List<CategoryDto>> Handle(GetAllCategoriesQuery query, CancellationToken cancellationToken)
+        public async ValueTask<List<CategoryDto>> Handle(GetAllCategoriesQuery query, CancellationToken cancellationToken)
         {
             var categories = await _categoryRepository.GetAllAsync();
             return categories.Select(category => new CategoryDto

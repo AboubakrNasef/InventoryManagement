@@ -1,4 +1,3 @@
-using InventoryManagement.Application.Common;
 using InventoryManagment.DomainModels.Entites;
 using InventoryManagment.DomainModels.Repositories;
 using Mediator;
@@ -19,7 +18,7 @@ namespace InventoryManagement.Application.Features.PurchaseOrders.Queries
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public async Task<PurchaseOrder> Handle(GetPurchaseOrderByIdQuery query, CancellationToken cancellationToken)
+        public async ValueTask<PurchaseOrder> Handle(GetPurchaseOrderByIdQuery query, CancellationToken cancellationToken)
         {
             _logger.LogInformation($"Getting purchase order by id: {query.Id}");
             var order = await _purchaseOrderRepository.GetByIdAsync(query.Id);

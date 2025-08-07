@@ -1,4 +1,4 @@
-using InventoryManagement.Application.Common;
+using Mediator;
 using InventoryManagment.DomainModels.Entites;
 using InventoryManagment.DomainModels.Repositories;
 using Microsoft.Extensions.Logging;
@@ -20,7 +20,7 @@ namespace InventoryManagement.Application.Features.PurchaseOrders.Commands
             _timeProvider = timeProvider ?? throw new ArgumentNullException(nameof(timeProvider));
         }
 
-        public async Task<int> Handle(CreatePurchaseOrderCommand command, CancellationToken cancellationToken)
+        public async ValueTask<int> Handle(CreatePurchaseOrderCommand command, CancellationToken cancellationToken)
         {
             _logger.LogInformation($"Creating purchase order for user {command.UserId}");
             var order = new PurchaseOrder

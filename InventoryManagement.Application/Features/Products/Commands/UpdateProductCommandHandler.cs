@@ -1,8 +1,7 @@
-using InventoryManagement.Application.Common;
 using InventoryManagment.DomainModels.Repositories;
+using Mediator;
 using Microsoft.Extensions.Logging;
-using System.Threading;
-using System.Threading.Tasks;
+
 
 namespace InventoryManagement.Application.Features.Products.Commands
 {
@@ -21,7 +20,7 @@ namespace InventoryManagement.Application.Features.Products.Commands
             _categoryRepository = categoryRepository ?? throw new ArgumentNullException(nameof(categoryRepository));
         }
 
-        public async Task<bool> Handle(UpdateProductCommand command, CancellationToken cancellationToken)
+        public async ValueTask<bool> Handle(UpdateProductCommand command, CancellationToken cancellationToken)
         {
             _logger.LogInformation($"Updating product: {command.Id}");
             var product = await _productRepository.GetByIdAsync(command.Id);

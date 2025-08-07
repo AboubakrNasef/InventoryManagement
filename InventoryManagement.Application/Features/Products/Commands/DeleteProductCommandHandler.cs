@@ -1,4 +1,4 @@
-using InventoryManagement.Application.Common;
+using Mediator;
 using InventoryManagment.DomainModels.Repositories;
 using Microsoft.Extensions.Logging;
 
@@ -18,7 +18,7 @@ namespace InventoryManagement.Application.Features.Products.Commands
             _logger = logger;
         }
 
-        public async Task<bool> Handle(DeleteProductCommand command, CancellationToken cancellationToken)
+        public async ValueTask<bool> Handle(DeleteProductCommand command, CancellationToken cancellationToken)
         {
             _logger.LogInformation($"Deleting product: {command.Id}");
             var product = await _productRepository.GetByIdAsync(command.Id);
