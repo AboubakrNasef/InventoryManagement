@@ -16,5 +16,13 @@ namespace InventoryManagement.Infrastructure.Repositories.Mongo
         {
 
         }
+
+        public async Task<ProductSearchModel> GetSearchModelByIdAsync(int productId)
+        {
+            return await _collection
+                .Find(p => p.Id == productId)
+                .As<ProductSearchModel>()
+                .FirstOrDefaultAsync();
+        }
     }
 }

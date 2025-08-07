@@ -23,9 +23,9 @@ namespace InventoryManagement.Infrastructure.Repositories.Mongo
             return await _collection.Find(Builders<T>.Filter.Eq("Id", id)).FirstOrDefaultAsync();
         }
 
-        public virtual IEnumerable<T> GetAllAsync()
+        public virtual Task<IEnumerable<T>> GetAllAsync()
         {
-            return _collection.Find(_ => true).ToEnumerable();
+            return Task.FromResult(_collection.Find(_ => true).ToEnumerable());
         }
 
         public virtual async Task AddAsync(T entity)

@@ -35,9 +35,9 @@ namespace InventoryManagement.Infrastructure.Repositories.Redis
             return result;
         }
 
-        public IEnumerable<T> GetAllAsync()
+        public Task<IEnumerable<T>> GetAllAsync()
         {
-            return _collection.AsEnumerable();
+            return Task.FromResult(_collection.AsEnumerable());
         }
 
         public async Task<T> GetByIdAsync(int id)

@@ -10,5 +10,6 @@ namespace InventoryManagment.DomainModels.Interfaces
 {
     public interface IProductRepository : IRepository<Product>
     {
+        Task<ProductSearchModel> GetSearchModelByIdAsync(int productId);
     }
 }
