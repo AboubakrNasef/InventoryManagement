@@ -1,6 +1,6 @@
 using InventoryManagement.Application.Features.Users.Commands;
 using InventoryManagement.Application.Features.Users.Queries;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InventoryManagement.Api.Controllers

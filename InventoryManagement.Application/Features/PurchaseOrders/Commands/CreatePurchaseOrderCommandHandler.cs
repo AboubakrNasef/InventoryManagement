@@ -13,10 +13,11 @@ namespace InventoryManagement.Application.Features.PurchaseOrders.Commands
         private readonly ILogger<CreatePurchaseOrderCommandHandler> _logger;
         private readonly TimeProvider _timeProvider;
 
-        public CreatePurchaseOrderCommandHandler(IPurchaseOrderRepository purchaseOrderRepository, ILogger<CreatePurchaseOrderCommandHandler> logger)
+        public CreatePurchaseOrderCommandHandler(IPurchaseOrderRepository purchaseOrderRepository, ILogger<CreatePurchaseOrderCommandHandler> logger, TimeProvider timeProvider)
         {
             _purchaseOrderRepository = purchaseOrderRepository ?? throw new ArgumentNullException(nameof(purchaseOrderRepository));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _timeProvider = timeProvider ?? throw new ArgumentNullException(nameof(timeProvider));
         }
 
         public async Task<int> Handle(CreatePurchaseOrderCommand command, CancellationToken cancellationToken)

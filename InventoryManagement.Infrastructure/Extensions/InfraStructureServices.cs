@@ -23,6 +23,8 @@ namespace InventoryManagement.Infrastructure.Extensions
     {
         public static void AddInfraStructure(this IServiceCollection services, IConfiguration configuration)
         {
+
+            var databaseName = configuration.GetSection("Database:Name").Value;
             var azureServiceBusConnection = configuration.GetConnectionString("AzureServiceBusConnection");
             var MongoConnectionString = configuration.GetConnectionString("MongoDbConnection");
             var RedisConnectionString = configuration.GetConnectionString("RedisConnection");
@@ -34,12 +36,20 @@ namespace InventoryManagement.Infrastructure.Extensions
             {
                 return new ServiceBusAdministrationClient(azureServiceBusConnection);
             });
-            services.AddSingleton<IProductRepository, MongoProductRepository>(c =>
+            services.AddSingleton<IMongoClient>(IMongoClient =>
             {
-                var client = new MongoClient(MongoConnectionString);
-                var database = client.GetDatabase("mydatabase");
-                return new MongoProductRepository(database);
+                return new MongoClient(MongoConnectionString);
             });
+            services.AddSingleton<IMongoDatabase>(c =>
+            {
+                var client = c.GetRequiredService<IMongoClient>();
+                return client.GetDatabase(databaseName);
+            });
+            services.AddSingleton<IProductRepository, MongoProductRepository>();
+            services.AddSingleton<IUserRepository, MongoUserRepository>();
+            services.AddSingleton<IPurchaseOrderRepository, MongoPurchaseOrderRepository>();
+            services.AddSingleton<ICategoryRepository, MongoCategoryRepository>();
+
             services.AddSingleton<IProductSearchRepository, ProductSearchRepository>(c =>
             {
                 var provider = new RedisConnectionProvider(RedisConnectionString);

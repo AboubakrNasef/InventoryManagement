@@ -18,7 +18,7 @@ namespace InventoryManagement.Application.Features.Categories.Commands
             _logger = logger;
         }
 
-        public async Task<int> Handle(CreateCategoryCommand command, CancellationToken cancellationToken)
+        public async ValueTask<int> Handle(CreateCategoryCommand command, CancellationToken cancellationToken)
         {
             _logger.LogInformation($"Creating category: {command.Name}");
             var category = new Category
@@ -29,5 +29,6 @@ namespace InventoryManagement.Application.Features.Categories.Commands
             await _categoryRepository.AddAsync(category);
             return category.Id;
         }
+
     }
 }

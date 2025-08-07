@@ -1,6 +1,6 @@
 using InventoryManagement.Application.Features.PurchaseOrders.Commands;
 using InventoryManagement.Application.Features.PurchaseOrders.Queries;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 

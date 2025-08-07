@@ -4,6 +4,7 @@ using InventoryManagement.Application.HostedServices;
 using InventoryManagement.Infrastructure.Extensions;
 using InventoryManagement.Infrastructure.Messaging.TopicMessages;
 using InventoryManagment.DomainModels.Repositories;
+using InventoryManagment.MessageProcessor.Extensions;
 using InventoryManagment.MessageProcessor.HostedServices;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,25 +13,16 @@ builder.Services.AddControllers();
 builder.Logging.AddConsole();
 
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddSwaggerGen();
 builder.Services.AddInfraStructure(builder.Configuration);
+builder.Services.AddMessageProcessingServices(builder.Configuration);
 
-builder.Services.AddHostedService<UpdateRedisDBHostedTopic>(c =>
-{
-    var topicName = builder.Configuration.GetSection("ServiceBus:TopicName").Value;
-    var subscriptionName = builder.Configuration.GetSection("ServiceBus:SubscriptionName").Value;
-    return new UpdateRedisDBHostedTopic(
-        subscriptionName,
-        topicName,
-        c.GetRequiredService<ServiceBusClient>(),
-        c.GetRequiredService<ILogger<HostedServiceBase<UpdateRedisTopicMessage>>>(),
-        c.GetRequiredService<IProductRepository>(),
-        c.GetRequiredService<IProductSearchRepository>());
-});
 
 var app = builder.Build();
-
-app.MapGet("/", () => "Hello MessageProcessor");
-
+app.UseHttpsRedirection();
+app.MapControllers();
 
 app.Run();
+
+

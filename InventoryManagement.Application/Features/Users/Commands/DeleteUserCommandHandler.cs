@@ -1,6 +1,6 @@
 using InventoryManagement.Application.Common;
 using InventoryManagment.DomainModels.Repositories;
-using MediatR;
+using Mediator;
 using Microsoft.Extensions.Logging;
 
 namespace InventoryManagement.Application.Features.Users.Commands

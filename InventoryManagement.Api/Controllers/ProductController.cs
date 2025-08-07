@@ -2,7 +2,7 @@ using InventoryManagement.Application.Features.Products.Queries;
 using InventoryManagement.Application.Features.Products.Commands;
 using Microsoft.AspNetCore.Mvc;
 using InventoryManagement.Application.Features.Products;
-using MediatR;
+using Mediator;
 using InventoryManagement.Infrastructure.Messaging.TopicMessages;
 using InventoryManagment.DomainModels.Messaging;
 

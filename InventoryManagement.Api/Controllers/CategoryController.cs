@@ -1,8 +1,7 @@
 using InventoryManagement.Application.Features.Categories.Commands;
 using InventoryManagement.Application.Features.Categories.Queries;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace InventoryManagement.Api.Controllers
 {
