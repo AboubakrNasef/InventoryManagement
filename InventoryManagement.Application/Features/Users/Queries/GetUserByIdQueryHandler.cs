@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace InventoryManagement.Application.Features.Users.Queries
 {
-    public record GetUserByIdQuery(int Id) : IQuery<User>;
+    public record GetUserByIdQuery(Guid Id) : IQuery<User>;
 
     public class GetUserByIdQueryHandler : IQueryHandler<GetUserByIdQuery, User>
     {

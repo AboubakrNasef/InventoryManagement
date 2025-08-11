@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 namespace InventoryManagement.Application.Features.PurchaseOrders.Commands
 {
-    public record UpdatePurchaseOrderCommand(int Id, int UserId, List<int> ProductIds, float TotalAmount) : ICommand<bool>;
+    public record UpdatePurchaseOrderCommand(Guid Id, Guid UserId, List<int> ProductIds, float TotalAmount) : ICommand<bool>;
 
     public class UpdatePurchaseOrderCommandHandler : ICommandHandler<UpdatePurchaseOrderCommand, bool>
     {

@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace InventoryManagement.Application.Features.Products.Commands
 {
-    public record DeleteProductCommand(int Id) : ICommand<bool>;
+    public record DeleteProductCommand(Guid Id) : ICommand<bool>;
 
     public class DeleteProductCommandHandler : ICommandHandler<DeleteProductCommand, bool>
     {

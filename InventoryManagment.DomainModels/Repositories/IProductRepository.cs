@@ -10,6 +10,6 @@ namespace InventoryManagment.DomainModels.Repositories
 {
     public interface IProductRepository : IRepository<Product>
     {
-        Task<ProductSearchModel> GetSearchModelByIdAsync(int productId);
+        Task<ProductSearchModel> GetSearchModelByIdAsync(Guid productId);
     }
 }

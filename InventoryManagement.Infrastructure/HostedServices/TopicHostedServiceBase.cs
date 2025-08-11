@@ -1,12 +1,7 @@
 ﻿using Azure.Messaging.ServiceBus;
-using Azure.Messaging.ServiceBus.Administration;
 using InventoryManagement.Application.HostedServices;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace InventoryManagement.Infrastructure.HostedServices
 {
@@ -35,7 +30,7 @@ namespace InventoryManagement.Infrastructure.HostedServices
                 MaxConcurrentCalls = 10,
             };
 
-            return await Task.FromResult( _serviceBusClient.CreateProcessor(_topicName, _subscriptionName, serviceBusProcessorOptions));
+            return await Task.FromResult(_serviceBusClient.CreateProcessor(_topicName, _subscriptionName, serviceBusProcessorOptions));
         }
     }
 }

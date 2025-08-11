@@ -29,7 +29,7 @@ namespace InventoryManagement.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<IActionResult> GetById(Guid id)
         {
             _logger.LogInformation("Getting purchase order by id: {Id}", id);
             var order = await _mediator.Send(new GetPurchaseOrderByIdQuery(id));
@@ -57,7 +57,7 @@ namespace InventoryManagement.Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] UpdatePurchaseOrderCommand command)
+        public async Task<IActionResult> Update(Guid id, [FromBody] UpdatePurchaseOrderCommand command)
         {
             if (command == null || id != command.Id)
             {

@@ -28,7 +28,7 @@ namespace InventoryManagement.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<IActionResult> GetById(Guid id)
         {
             _logger.LogInformation("Getting category by id: {Id}", id);
             var category = await _mediator.Send(new GetCategoryByIdQuery(id));
@@ -56,7 +56,7 @@ namespace InventoryManagement.Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] UpdateCategoryCommand command)
+        public async Task<IActionResult> Update(Guid id, [FromBody] UpdateCategoryCommand command)
         {
             if (command == null || id != command.Id)
             {
@@ -75,7 +75,7 @@ namespace InventoryManagement.Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             _logger.LogInformation("Deleting category with id: {Id}", id);
             var deleted = await _mediator.Send(new DeleteCategoryCommand(id));

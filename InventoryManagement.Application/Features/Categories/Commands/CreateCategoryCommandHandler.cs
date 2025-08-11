@@ -5,9 +5,9 @@ using Microsoft.Extensions.Logging;
 
 namespace InventoryManagement.Application.Features.Categories.Commands
 {
-    public record CreateCategoryCommand(string Name, string Description) : ICommand<int>;
+    public record CreateCategoryCommand(string Name, string Description) : ICommand<Guid>;
 
-    public class CreateCategoryCommandHandler : ICommandHandler<CreateCategoryCommand, int>
+    public class CreateCategoryCommandHandler : ICommandHandler<CreateCategoryCommand, Guid>
     {
         private readonly ICategoryRepository _categoryRepository;
         private readonly ILogger<CreateCategoryCommandHandler> _logger;
@@ -18,7 +18,7 @@ namespace InventoryManagement.Application.Features.Categories.Commands
             _logger = logger;
         }
 
-        public async ValueTask<int> Handle(CreateCategoryCommand command, CancellationToken cancellationToken)
+        public async ValueTask<Guid> Handle(CreateCategoryCommand command, CancellationToken cancellationToken)
         {
             _logger.LogInformation($"Creating category: {command.Name}");
             var category = new Category

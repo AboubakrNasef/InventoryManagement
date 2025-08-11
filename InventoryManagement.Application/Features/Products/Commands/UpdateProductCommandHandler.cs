@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace InventoryManagement.Application.Features.Products.Commands
 {
-    public record UpdateProductCommand(int Id, string Name, string Description, float Price, int Quantity, int CategoryId) : ICommand<bool>;
+    public record UpdateProductCommand(Guid Id, string Name, string Description, float Price, int Quantity, Guid CategoryId) : ICommand<bool>;
 
     public class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand, bool>
     {

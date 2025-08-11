@@ -16,6 +16,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Serializers;
+using MongoDB.Bson;
 
 namespace InventoryManagement.Infrastructure.Extensions
 {
@@ -57,6 +60,13 @@ namespace InventoryManagement.Infrastructure.Extensions
                 return new ProductSearchRepository(provider);
             });
             services.AddSingleton<IMessageBus, MessageBus>();
+            services.AddSingleton<IIDCreator, IDCreator>();
+            ConfigureSerializtation();
+        }
+
+        private static void ConfigureSerializtation()
+        {
+            BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.CSharpLegacy));
         }
     }
 }

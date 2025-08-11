@@ -1,4 +1,4 @@
-name: AspServiceBusEmulator
+name: InventoryManagment
 services:
 
   redis:

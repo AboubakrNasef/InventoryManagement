@@ -6,7 +6,7 @@ namespace InventoryManagement.Infrastructure.Repositories.Mongo
 {
     public class MongoPurchaseOrderRepository : MongoBaseRepository<PurchaseOrder>, IPurchaseOrderRepository
     {
-        public MongoPurchaseOrderRepository(IMongoDatabase database) : base(database)
+        public MongoPurchaseOrderRepository(IMongoDatabase database, IIDCreator iDCreator) : base(database, iDCreator)
         {
         }
     }

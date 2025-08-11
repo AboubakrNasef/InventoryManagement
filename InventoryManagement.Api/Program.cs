@@ -1,3 +1,4 @@
+using InventoryManagement.Api.HostedServices;
 using InventoryManagement.Application.Extensions;
 using InventoryManagement.Infrastructure.Extensions;
 
@@ -10,6 +11,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddApplication();
 builder.Services.AddInfraStructure(builder.Configuration);
+//builder.Services.AddHostedService<DataBaseSeederService>();
 
 var app = builder.Build();
 

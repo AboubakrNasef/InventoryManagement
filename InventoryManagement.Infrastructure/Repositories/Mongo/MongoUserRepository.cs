@@ -9,9 +9,10 @@ namespace InventoryManagement.Infrastructure.Repositories.Mongo
 {
     public class MongoUserRepository : MongoBaseRepository<User>, IUserRepository
     {
-        public MongoUserRepository(IMongoDatabase database) : base(database)
+        public MongoUserRepository(IMongoDatabase database, IIDCreator iDCreator) : base(database, iDCreator)
         {
         }
+
 
         public async Task<User> GetByUsernameAsync(string username)
         {

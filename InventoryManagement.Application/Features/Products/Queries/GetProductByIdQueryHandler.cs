@@ -4,7 +4,7 @@ using InventoryManagment.DomainModels.Repositories;
 
 namespace InventoryManagement.Application.Features.Products.Queries
 {
-    public record GetProductByIdQuery(int Id) : IQuery<ProductDto>;
+    public record GetProductByIdQuery(Guid Id) : IQuery<ProductDto>;
 
     public class GetProductByIdQueryHandler : IQueryHandler<GetProductByIdQuery, ProductDto>
     {

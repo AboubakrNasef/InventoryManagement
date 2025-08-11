@@ -4,7 +4,7 @@ using InventoryManagment.DomainModels.Repositories;
 
 namespace InventoryManagement.Application.Features.Categories.Queries
 {
-    public record GetCategoryByIdQuery(int Id) : IQuery<CategoryDto>;
+    public record GetCategoryByIdQuery(Guid Id) : IQuery<CategoryDto>;
 
     public class GetCategoryByIdQueryHandler : IQueryHandler<GetCategoryByIdQuery, CategoryDto>
     {

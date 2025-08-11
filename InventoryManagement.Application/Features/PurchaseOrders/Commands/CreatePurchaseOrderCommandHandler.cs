@@ -5,9 +5,9 @@ using Microsoft.Extensions.Logging;
 
 namespace InventoryManagement.Application.Features.PurchaseOrders.Commands
 {
-    public record CreatePurchaseOrderCommand(int UserId, List<int> ProductIds, float TotalAmount) : ICommand<int>;
+    public record CreatePurchaseOrderCommand(Guid UserId, List<int> ProductIds, float TotalAmount) : ICommand<Guid>;
 
-    public class CreatePurchaseOrderCommandHandler : ICommandHandler<CreatePurchaseOrderCommand, int>
+    public class CreatePurchaseOrderCommandHandler : ICommandHandler<CreatePurchaseOrderCommand, Guid>
     {
         private readonly IPurchaseOrderRepository _purchaseOrderRepository;
         private readonly ILogger<CreatePurchaseOrderCommandHandler> _logger;
@@ -20,7 +20,7 @@ namespace InventoryManagement.Application.Features.PurchaseOrders.Commands
             _timeProvider = timeProvider ?? throw new ArgumentNullException(nameof(timeProvider));
         }
 
-        public async ValueTask<int> Handle(CreatePurchaseOrderCommand command, CancellationToken cancellationToken)
+        public async ValueTask<Guid> Handle(CreatePurchaseOrderCommand command, CancellationToken cancellationToken)
         {
             _logger.LogInformation($"Creating purchase order for user {command.UserId}");
             var order = new PurchaseOrder

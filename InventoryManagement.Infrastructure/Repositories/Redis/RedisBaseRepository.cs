@@ -27,9 +27,8 @@ namespace InventoryManagement.Infrastructure.Repositories.Redis
             await _collection.InsertAsync(entity);
         }
 
-        public async Task<long> DeleteAsync(int id)
+        public async Task<long> DeleteAsync(Guid id)
         {
-            // Assumes entity has an int Id property
             var key = $"{typeof(T).Name}:{id}";
             var result = await _redisConnectionProvider.Connection.UnlinkAsync(key);
             return result;
@@ -40,7 +39,7 @@ namespace InventoryManagement.Infrastructure.Repositories.Redis
             return Task.FromResult(_collection.AsEnumerable());
         }
 
-        public async Task<T> GetByIdAsync(int id)
+        public async Task<T> GetByIdAsync(Guid id)
         {
             return await _collection.Where(s => s.Id == id).FirstOrDefaultAsync();
         }
@@ -48,7 +47,7 @@ namespace InventoryManagement.Infrastructure.Repositories.Redis
         public async Task<long> UpdateAsync(T entity)
         {
             await _collection.UpdateAsync(entity);
-            return 1; // Redis OM does not return affected count, assume 1
+            return 1;
         }
     }
 }

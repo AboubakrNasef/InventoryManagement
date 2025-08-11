@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace InventoryManagement.Application.Features.Users.Commands
 {
-    public record DeleteUserCommand(int Id) : ICommand<bool>;
+    public record DeleteUserCommand(Guid Id) : ICommand<bool>;
 
     public class DeleteUserCommandHandler : ICommandHandler<DeleteUserCommand, bool>
     {

@@ -6,9 +6,9 @@ using Microsoft.Extensions.Logging;
 
 namespace InventoryManagement.Application.Features.Products.Commands
 {
-    public record CreateProductCommand(string Name, string Description, float Price, int CategoryId, int Quantity) : ICommand<int>;
+    public record CreateProductCommand(string Name, string Description, float Price, Guid CategoryId, int Quantity) : ICommand<Guid>;
 
-    public class CreateProductCommandHandler : ICommandHandler<CreateProductCommand, int>
+    public class CreateProductCommandHandler : ICommandHandler<CreateProductCommand, Guid>
     {
         private readonly IProductRepository _productRepository;
         private readonly ICategoryRepository _categoryRepository;
@@ -22,7 +22,7 @@ namespace InventoryManagement.Application.Features.Products.Commands
         }
 
 
-        public async ValueTask<int> Handle(CreateProductCommand command, CancellationToken cancellationToken)
+        public async ValueTask<Guid> Handle(CreateProductCommand command, CancellationToken cancellationToken)
         {
             _logger.LogInformation($"Creating product: {command.Name}");
 

@@ -12,7 +12,7 @@ namespace InventoryManagement.Application.RedisSearch
     public class ProductSearchModel : IEntity
     {
         [RedisIdField]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         [Searchable]
         public string Name { get; set; }
         public decimal Price { get; set; }

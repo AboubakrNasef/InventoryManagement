@@ -46,20 +46,20 @@ namespace InventoryManagment.MessageProcessor.HostedServices
             }
         }
 
-        private async Task HandleDelete(int productId)
+        private async Task HandleDelete(Guid productId)
         {
             _logger.LogInformation("Deleting {id}", productId);
             await _productSearchRepository.DeleteAsync(productId);
         }
 
-        private async Task HandleUpdate(int productId)
+        private async Task HandleUpdate(Guid productId)
         {
             _logger.LogInformation("updating product {id}", productId);
             var productSearch = await _productRepository.GetSearchModelByIdAsync(productId);
             await _productSearchRepository.UpdateAsync(productSearch);
         }
 
-        private async Task HandleAdd(int productId)
+        private async Task HandleAdd(Guid productId)
         {
             _logger.LogInformation("Adding product {id}", productId);
 

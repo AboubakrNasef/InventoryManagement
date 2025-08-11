@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace InventoryManagement.Application.Features.Categories.Commands
 {
-    public record DeleteCategoryCommand(int Id) : ICommand<bool>;
+    public record DeleteCategoryCommand(Guid Id) : ICommand<bool>;
 
     public class DeleteCategoryCommandHandler : ICommandHandler<DeleteCategoryCommand, bool>
     {

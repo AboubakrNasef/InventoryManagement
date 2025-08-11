@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace InventoryManagement.Application.Features.Users.Commands
 {
-    public record UpdateUserCommand(int Id, string UserName, string Email) : ICommand<bool>;
+    public record UpdateUserCommand(Guid Id, string UserName, string Email) : ICommand<bool>;
 
     public class UpdateUserCommandHandler : ICommandHandler<UpdateUserCommand, bool>
     {

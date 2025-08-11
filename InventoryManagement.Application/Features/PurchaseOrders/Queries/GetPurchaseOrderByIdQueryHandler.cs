@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace InventoryManagement.Application.Features.PurchaseOrders.Queries
 {
-    public record GetPurchaseOrderByIdQuery(int Id) : IQuery<PurchaseOrder>;
+    public record GetPurchaseOrderByIdQuery(Guid Id) : IQuery<PurchaseOrder>;
 
     public class GetPurchaseOrderByIdQueryHandler : IQueryHandler<GetPurchaseOrderByIdQuery, PurchaseOrder>
     {

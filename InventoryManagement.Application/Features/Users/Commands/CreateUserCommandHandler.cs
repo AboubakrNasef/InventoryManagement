@@ -5,9 +5,9 @@ using Microsoft.Extensions.Logging;
 
 namespace InventoryManagement.Application.Features.Users.Commands
 {
-    public record CreateUserCommand(string UserName, string Email, string Password) : ICommand<int>;
+    public record CreateUserCommand(string UserName, string Email, string Password) : ICommand<Guid>;
 
-    public class CreateUserCommandHandler : ICommandHandler<CreateUserCommand, int>
+    public class CreateUserCommandHandler : ICommandHandler<CreateUserCommand, Guid>
     {
         private readonly IUserRepository _userRepository;
         private readonly ILogger<CreateUserCommandHandler> _logger;
@@ -18,7 +18,7 @@ namespace InventoryManagement.Application.Features.Users.Commands
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public async ValueTask<int> Handle(CreateUserCommand command, CancellationToken cancellationToken)
+        public async ValueTask<Guid> Handle(CreateUserCommand command, CancellationToken cancellationToken)
         {
             _logger.LogInformation($"Creating user: {command.UserName}");
             var user = new User

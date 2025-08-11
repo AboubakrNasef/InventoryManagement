@@ -12,12 +12,12 @@ namespace InventoryManagement.Infrastructure.Repositories.Mongo
 {
     public class MongoProductRepository : MongoBaseRepository<Product>, IProductRepository
     {
-        public MongoProductRepository(IMongoDatabase database) : base(database)
+        public MongoProductRepository(IMongoDatabase database, IIDCreator iDCreator) : base(database, iDCreator)
         {
 
         }
 
-        public async Task<ProductSearchModel> GetSearchModelByIdAsync(int productId)
+        public async Task<ProductSearchModel> GetSearchModelByIdAsync(Guid productId)
         {
             return await _collection
                 .Find(p => p.Id == productId)
