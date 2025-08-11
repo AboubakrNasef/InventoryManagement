@@ -19,6 +19,8 @@ using System.Threading.Tasks;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Bson;
+using InventoryManagement.Application.Common;
+using InventoryManagement.Infrastructure.CommonServices;
 
 namespace InventoryManagement.Infrastructure.Extensions
 {
@@ -61,6 +63,8 @@ namespace InventoryManagement.Infrastructure.Extensions
             });
             services.AddSingleton<IMessageBus, MessageBus>();
             services.AddSingleton<IIDCreator, IDCreator>();
+            services.AddSingleton<IJwtTokenService, JwtTokenService>();
+            services.AddSingleton<IPasswordHasher, PasswordHasher>();
             ConfigureSerializtation();
         }
 

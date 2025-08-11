@@ -2,6 +2,11 @@ using InventoryManagement.Application.Features.Users.Commands;
 using InventoryManagement.Application.Features.Users.Queries;
 using Mediator;
 using Microsoft.AspNetCore.Mvc;
+using InventoryManagement.Application.Features.Users;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Cryptography;
+using System.Text;
+using InventoryManagement.Application.Common;
 
 namespace InventoryManagement.Api.Controllers
 {
@@ -11,11 +16,13 @@ namespace InventoryManagement.Api.Controllers
     {
         private readonly IMediator _mediator;
         private readonly ILogger<UserController> _logger;
+        private readonly IJwtTokenService _jwtTokenService;
 
-        public UserController(IMediator mediator, ILogger<UserController> logger)
+        public UserController(IMediator mediator, ILogger<UserController> logger, IJwtTokenService jwtTokenService)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _jwtTokenService = jwtTokenService ?? throw new ArgumentNullException(nameof(jwtTokenService));
         }
 
         [HttpGet]
@@ -41,51 +48,30 @@ namespace InventoryManagement.Api.Controllers
             return Ok(user);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Add([FromBody] CreateUserCommand command)
+
+        [HttpPost("register")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Register([FromBody] RegisterUserDto dto)
         {
-            if (command == null)
-            {
-                _logger.LogWarning("Invalid user data for add. DTO: {Command}", command);
-                return BadRequest("Invalid user data.");
-            }
-            _logger.LogInformation("Adding new user");
-            var userId = await _mediator.Send(command);
-            _logger.LogInformation("User created with id: {Id}", userId);
-            return CreatedAtAction(nameof(GetById), new { id = userId }, null);
+            if (dto == null || string.IsNullOrWhiteSpace(dto.UserName) || string.IsNullOrWhiteSpace(dto.Email) || string.IsNullOrWhiteSpace(dto.Password))
+                return BadRequest("Invalid registration data.");
+            var token = await _mediator.Send(new RegisterUserCommand(dto.UserName, dto.Email, dto.Password));
+            if (token == null)
+                return Conflict("Username or email already exists.");
+            return Ok(token);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(Guid id, [FromBody] UpdateUserCommand command)
+        [HttpPost("login")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Login([FromBody] LoginUserDto dto)
         {
-            if (command == null || id != command.Id)
-            {
-                _logger.LogWarning("Invalid user data for update. Id: {Id}, Command: {Command}", id, command);
-                return BadRequest("Invalid user data.");
-            }
-            _logger.LogInformation("Updating user with id: {Id}", id);
-            var updated = await _mediator.Send(command);
-            if (!updated)
-            {
-                _logger.LogWarning("User with id: {Id} not found for update", id);
-                return NotFound();
-            }
-            _logger.LogInformation("User updated with id: {Id}", id);
-            return NoContent();
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(Guid id)
-        {
-            _logger.LogInformation("Deleting user with id: {Id}", id);
-            var deleted = await _mediator.Send(new DeleteUserCommand(id));
-            if (!deleted)
-            {
-                _logger.LogWarning("User with id: {Id} not found for deletion", id);
-                return NotFound();
-            }
-            _logger.LogInformation("User deleted with id: {Id}", id);
-            return NoContent();
+            if (dto == null || string.IsNullOrWhiteSpace(dto.UserName) || string.IsNullOrWhiteSpace(dto.Password))
+                return BadRequest("Invalid login data.");
+            var token = await _mediator.Send(new LoginUserCommand(dto.UserName, dto.Password));
+            if (token == null)
+                return Unauthorized("Invalid username or password.");
+            return Ok(token);
         }
     }
 }
+

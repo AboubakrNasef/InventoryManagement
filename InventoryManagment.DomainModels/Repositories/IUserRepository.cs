@@ -10,7 +10,8 @@ namespace InventoryManagment.DomainModels.Repositories
         Task<User> GetByEmailAsync(string email);
         Task<bool> ExistsByUsernameAsync(string username);
         Task<bool> ExistsByEmailAsync(string email);
+        Task<bool> ExistsByEmailOrUserNameAsync(string email, string userName);
         Task<IList<User>> GetByRoleAsync(string role);
-        // Add more user-specific methods here if needed
+
     }
 }

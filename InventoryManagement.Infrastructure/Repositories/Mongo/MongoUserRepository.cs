@@ -13,7 +13,6 @@ namespace InventoryManagement.Infrastructure.Repositories.Mongo
         {
         }
 
-
         public async Task<User> GetByUsernameAsync(string username)
         {
             return await _collection.Find(u => u.UserName == username).FirstOrDefaultAsync();
@@ -37,6 +36,11 @@ namespace InventoryManagement.Infrastructure.Repositories.Mongo
         public async Task<IList<User>> GetByRoleAsync(string role)
         {
             return await _collection.Find(u => u.Role == role).ToListAsync();
+        }
+
+        public Task<bool> ExistsByEmailOrUserNameAsync(string email, string userName)
+        {
+            return _collection.Find(u => u.Email == email || u.UserName == userName).AnyAsync();
         }
     }
 }
