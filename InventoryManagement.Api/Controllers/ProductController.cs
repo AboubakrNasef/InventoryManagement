@@ -5,9 +5,11 @@ using InventoryManagement.Application.Features.Products;
 using Mediator;
 using InventoryManagement.Infrastructure.Messaging.TopicMessages;
 using InventoryManagment.DomainModels.Messaging;
+using Microsoft.AspNetCore.Authorization;
 
 namespace InventoryManagement.Api.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class ProductsController : ControllerBase

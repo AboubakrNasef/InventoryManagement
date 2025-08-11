@@ -1,10 +1,12 @@
 using InventoryManagement.Application.Features.Categories.Commands;
 using InventoryManagement.Application.Features.Categories.Queries;
 using Mediator;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InventoryManagement.Api.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class CategoryController : ControllerBase

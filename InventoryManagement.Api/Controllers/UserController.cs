@@ -10,6 +10,7 @@ using InventoryManagement.Application.Common;
 
 namespace InventoryManagement.Api.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class UserController : ControllerBase

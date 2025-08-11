@@ -1,11 +1,13 @@
 using InventoryManagement.Application.Features.PurchaseOrders.Commands;
 using InventoryManagement.Application.Features.PurchaseOrders.Queries;
 using Mediator;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
 namespace InventoryManagement.Api.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class PurchaseOrderController : ControllerBase
