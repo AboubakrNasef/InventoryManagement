@@ -3,10 +3,20 @@ using InventoryManagement.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using InventoryManagement.OpenTelemetry;
+
+
+var serviceName = "Inventory.Api";
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Logging.AddConsole();
+
+builder.Logging.AddOpenTelemtryLogging(serviceName);
+
+
+builder.Services.AddOpenTelemtryTracing(serviceName);
+builder.Services.AddOpenTelemtryMetrics(serviceName);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

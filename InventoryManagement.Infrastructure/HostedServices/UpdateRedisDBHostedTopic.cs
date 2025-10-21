@@ -3,7 +3,7 @@ using InventoryManagement.Application.HostedServices;
 using InventoryManagement.Infrastructure.Messaging.TopicMessages;
 using InventoryManagment.DomainModels.Repositories;
 
-namespace InventoryManagement.Infrastructure.HostedServices
+namespace InventoryManagement.Infrastructure.HostedServices { 
     public class UpdateRedisDBHostedTopic : TopicHostedServiceBase<UpdateRedisTopicMessage>
     {
         private readonly IProductRepository _productRepository;

@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryManagement.Infrast
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryManagment.MessageProcessor", "InventoryManagment.MessageProcessor\InventoryManagment.MessageProcessor.csproj", "{FD64C8E9-0921-4342-ADAD-88F088C6B29E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryManagement.OpenTelemetry", "InventoryManagement.OpenTelemetry\InventoryManagement.OpenTelemetry.csproj", "{5BD6A554-918F-4492-A0CB-E5B02ABCF552}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,8 +41,15 @@ Global
 		{FD64C8E9-0921-4342-ADAD-88F088C6B29E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD64C8E9-0921-4342-ADAD-88F088C6B29E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD64C8E9-0921-4342-ADAD-88F088C6B29E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BD6A554-918F-4492-A0CB-E5B02ABCF552}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BD6A554-918F-4492-A0CB-E5B02ABCF552}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BD6A554-918F-4492-A0CB-E5B02ABCF552}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BD6A554-918F-4492-A0CB-E5B02ABCF552}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {004556FD-E569-4D2F-AFF5-C7B3DD1E364F}
 	EndGlobalSection
 EndGlobal
