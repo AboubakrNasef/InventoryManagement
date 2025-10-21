@@ -1,7 +1,7 @@
 using Azure.Messaging.ServiceBus;
-using Azure.Messaging.ServiceBus.Administration;
 using InventoryManagement.Application.HostedServices;
 using InventoryManagement.Infrastructure.Extensions;
+using InventoryManagement.Infrastructure.HostedServices;
 using InventoryManagement.Infrastructure.Messaging.TopicMessages;
 using InventoryManagment.DomainModels.Repositories;
 using InventoryManagment.MessageProcessor.Extensions;
