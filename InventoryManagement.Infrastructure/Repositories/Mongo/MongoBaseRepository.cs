@@ -48,5 +48,19 @@ namespace InventoryManagement.Infrastructure.Repositories.Mongo
             var result = await _collection.DeleteOneAsync(Builders<T>.Filter.Eq("Id", id));
             return result.DeletedCount;
         }
+
+        public async Task<long> UpdateByDictionary(Guid entityId, Dictionary<string, object> updateDictionary)
+        {
+            var filter = Builders<T>.Filter.Eq(e => e.Id, entityId);
+            var updates = new List<UpdateDefinition<T>>();
+
+            foreach (var update in updateDictionary)
+            {
+                updates.Add(Builders<T>.Update.Set(update.Key, update.Value));
+            }
+            var updateDefinition = Builders<T>.Update.Combine(updates);
+            var result = await _collection.UpdateOneAsync(filter, updateDefinition);
+            return result.ModifiedCount;
+        }
     }
 }

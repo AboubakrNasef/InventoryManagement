@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace InventoryManagment.DomainModels.Repositories
 {
-    public interface IProductRepository : IRepository<Product>
+    public interface IProductRepository : IMongoRepository<Product>
     {
         Task<ProductSearchModel> GetSearchModelByIdAsync(Guid productId);
     }

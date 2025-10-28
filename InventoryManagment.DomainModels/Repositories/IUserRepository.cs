@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace InventoryManagment.DomainModels.Repositories
 {
-    public interface IUserRepository : IRepository<User>
+    public interface IUserRepository : IMongoRepository<User>
     {
         Task<User> GetByUsernameAsync(string username);
         Task<User> GetByEmailAsync(string email);

@@ -2,7 +2,7 @@ using InventoryManagment.DomainModels.Entites;
 
 namespace InventoryManagment.DomainModels.Repositories
 {
-    public interface ICategoryRepository : IRepository<Category>
+    public interface ICategoryRepository : IMongoRepository<Category>
     {
 
     }
