@@ -19,6 +19,5 @@ namespace InventoryManagement.InfraStructure.IntegrationTest.Repositories.Mongo
             Repository = new MongoCategoryRepository(fixture.Database, iDCreator);
             _fixture = fixture;
         }
-
     }
 }

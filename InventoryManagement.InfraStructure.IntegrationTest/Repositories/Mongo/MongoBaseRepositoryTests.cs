@@ -2,6 +2,7 @@
 using InventoryManagment.DomainModels.Entites;
 using InventoryManagment.DomainModels.Repositories;
 using MongoDB.Driver;
+using MongoDB.Driver.Core.Misc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,18 +32,20 @@ namespace InventoryManagement.InfraStructure.IntegrationTest.Repositories.Mongo
             // Assert
             Assert.NotNull(entities);
             Assert.Equal(Fixture.SeededEntities.Count, entities.Count());
-
         }
+
         [Fact]
         public async Task AddAsync_ShouldAddToDb()
         {
             // Arrange
             var entity = Fixture.Faker.Generate();
-
+         
             // Act
             await Repository.AddAsync(entity);
             _createdEntityIds.Add(entity.Id);
+
             var retrievedEntity = await Fixture.Collection.Find(e => e.Id == entity.Id).FirstAsync();
+            
             // Assert
             Assert.Equal(entity.Id, retrievedEntity.Id);
         }

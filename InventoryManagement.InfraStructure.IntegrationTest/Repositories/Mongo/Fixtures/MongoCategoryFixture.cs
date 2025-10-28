@@ -11,17 +11,13 @@ namespace InventoryManagement.InfraStructure.IntegrationTest.Repositories.Mongo.
 {
     public class MongoCategoryFixture : MongoBaseFixture<Category>
     {
-
-
         public MongoCategoryFixture(IIntegrationTestContainers integrationTestContainers, IMongoClient client, IFaker<Category> faker) : base(integrationTestContainers, client,faker)
         {
         }
-
-
         public override async Task SeedDB()
         {
-            _seededEntites.AddRange(Faker.Generate(5));
-            await Collection.InsertManyAsync(SeededEntities);
+            _seededEntites.AddRange(Faker.Generate(5));//in memory
+            await Collection.InsertManyAsync(_seededEntites);//insert to db
         }
     }
 }
