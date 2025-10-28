@@ -1,8 +1,13 @@
 namespace InventoryManagement.Application.Features.Products
 {
-    public class ProductDto
+    public class ProductDto: CreateProductDto
     {
         public Guid Id { get; set; }
+
+    }
+    public class CreateProductDto
+    {
+
         public string Name { get; set; }
         public string Description { get; set; }
         public float Price { get; set; }

@@ -6,7 +6,7 @@ using Microsoft.OpenApi.Models;
 using InventoryManagement.OpenTelemetry;
 
 
-var serviceName = "Inventory.Api";
+const string serviceName = "Inventory.Api";
 
 var builder = WebApplication.CreateBuilder(args);
 

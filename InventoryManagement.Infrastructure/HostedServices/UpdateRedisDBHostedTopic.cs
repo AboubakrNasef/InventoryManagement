@@ -2,6 +2,7 @@
 using InventoryManagement.Application.HostedServices;
 using InventoryManagement.Infrastructure.Messaging.TopicMessages;
 using InventoryManagment.DomainModels.Repositories;
+using Microsoft.Extensions.Logging;
 
 namespace InventoryManagement.Infrastructure.HostedServices { 
     public class UpdateRedisDBHostedTopic : TopicHostedServiceBase<UpdateRedisTopicMessage>

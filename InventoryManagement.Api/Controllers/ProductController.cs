@@ -88,7 +88,7 @@ namespace InventoryManagement.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add([FromBody] ProductDto dto)
+        public async Task<IActionResult> Add([FromBody] CreateProductDto dto)
         {
             if (dto == null)
             {

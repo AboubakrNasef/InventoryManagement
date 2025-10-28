@@ -1,14 +1,15 @@
-using Azure.Messaging.ServiceBus;
-using InventoryManagement.Application.HostedServices;
 using InventoryManagement.Infrastructure.Extensions;
-using InventoryManagement.Infrastructure.HostedServices;
-using InventoryManagement.Infrastructure.Messaging.TopicMessages;
-using InventoryManagment.DomainModels.Repositories;
 using InventoryManagment.MessageProcessor.Extensions;
-using InventoryManagment.MessageProcessor.HostedServices;
+using InventoryManagement.OpenTelemetry;
+
+const string serviceName = "Inventory.MessageProcessor";
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Logging.AddOpenTelemtryLogging(serviceName);
 
+
+builder.Services.AddOpenTelemtryTracing(serviceName);
+builder.Services.AddOpenTelemtryMetrics(serviceName);
 builder.Services.AddControllers();
 builder.Logging.AddConsole();
 

@@ -27,7 +27,7 @@ namespace InventoryManagement.Application.Features.Products.Commands
             _logger.LogInformation($"Creating product: {command.Name}");
 
             // Check if the category exists
-            var categoryExists = await _productRepository.GetByIdAsync(command.CategoryId) != null;
+            var categoryExists = await _categoryRepository.GetByIdAsync(command.CategoryId) != null;
             if (!categoryExists)
             {
                 _logger.LogWarning($"Category with ID {command.CategoryId} does not exist.");

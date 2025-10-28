@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\InventoryManagement.Infrastructure\InventoryManagement.Infrastructure.csproj" />
+    <ProjectReference Include="..\InventoryManagement.OpenTelemetry\InventoryManagement.OpenTelemetry.csproj" />
   </ItemGroup>
 
 </Project>

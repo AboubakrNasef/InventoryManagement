@@ -18,7 +18,7 @@ namespace InventoryManagement.OpenTelemetry
                  .WithTracing(tracing => tracing
                     .AddAspNetCoreInstrumentation()
                     .AddHttpClientInstrumentation()
-                    .AddConsoleExporter());
+                    .AddOtlpExporter(opts => { opts.Endpoint = new Uri("http://localhost:4317"); }));
         }
         public static void AddOpenTelemtryMetrics(this IServiceCollection services, string serviceName)
         {
@@ -27,15 +27,16 @@ namespace InventoryManagement.OpenTelemetry
                  .WithMetrics(metrics => metrics
                     .AddAspNetCoreInstrumentation()
                     .AddHttpClientInstrumentation()
-                    .AddConsoleExporter());
+                    .AddOtlpExporter(opts => { opts.Endpoint = new Uri("http://localhost:4317"); }));
         }
         public static void AddOpenTelemtryLogging(this ILoggingBuilder logging, string serviceName)
         {
             logging.AddOpenTelemetry(options =>
            {
-               options.SetResourceBuilder(ResourceBuilder.CreateDefault().AddService(serviceName)).AddConsoleExporter();
+               options.SetResourceBuilder(ResourceBuilder.CreateDefault().AddService(serviceName))
+               .AddOtlpExporter(opts => { opts.Endpoint = new Uri("http://localhost:9411"); });
 
-           });
+        });
         }
     }
 }
