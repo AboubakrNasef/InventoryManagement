@@ -68,7 +68,7 @@ namespace InventoryManagement.Infrastructure.Extensions
             ConfigureSerializtation();
         }
 
-        private static void ConfigureSerializtation()
+        public static void ConfigureSerializtation()
         {
             BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.CSharpLegacy));
         }
